@@ -17,9 +17,9 @@ intents.guilds = True
 intents.members = True
 
 
-def get_r6_map_channels(bot):
+def get_r6_map_channels(bot_instance):
     channels = []
-    categories = bot.guilds[0].categories
+    categories = bot_instance.guilds[0].categories
     for category in categories:
         if category.name == "R6 - Mapas":
             for channel in category.channels:
@@ -60,27 +60,29 @@ async def on_ready():
 # Define as opções do comando
 @app_commands.choices(
     game_map=[
-        app_commands.Choice(name="Banco", value="Banco"),
-        app_commands.Choice(name="Casa", value="Casa"),
         app_commands.Choice(name="Arranha-céu", value="Arranha-céu"),
+        app_commands.Choice(name="Banco", value="Banco"),
+        app_commands.Choice(name="Café Dostoiévski", value="Café Dostoiévski"),
+        app_commands.Choice(name="Canal", value="Canal"),
+        app_commands.Choice(name="Casa", value="Casa"),
         app_commands.Choice(name="Chalé", value="Chalé"),
+        app_commands.Choice(name="Clube", value="Clube"),
         app_commands.Choice(name="Consulado", value="Consulado"),
+        app_commands.Choice(name="Covil", value="Covil"),
+        app_commands.Choice(name="Emerald Plains", value="Emerald Plains"),
+        app_commands.Choice(name="Fortaleza", value="Fortaleza"),
         app_commands.Choice(name="Fronteira", value="Fronteira"),
         app_commands.Choice(name="Litoral", value="Litoral"),
+        app_commands.Choice(
+            name="Laboratório Nighthaven", value="Laboratório Nighthaven"
+        ),
         app_commands.Choice(name="Oregon", value="Oregon"),
         app_commands.Choice(name="Outback", value="Outback"),
         app_commands.Choice(name="Parque Temático", value="Parque Temático"),
-        app_commands.Choice(name="Arranha-céu", value="Arranha-céu"),
-        app_commands.Choice(name="Clube", value="Clube"),
-        app_commands.Choice(name="Café Dostoiévski", value="Café Dostoiévski"),
-        app_commands.Choice(name="Fortaleza", value="Fortaleza"),
         app_commands.Choice(
             name="Universidade Bartlett", value="Universidade Bartlett"
         ),
-        app_commands.Choice(name="Canal", value="Canal"),
         app_commands.Choice(name="Villa", value="Villa"),
-        app_commands.Choice(name="Emerald Plains", value="Emerald Plains"),
-        app_commands.Choice(name="Teste", value="Teste"),
     ],
     phase=[
         app_commands.Choice(name="Ataque", value="Ataque"),
@@ -119,14 +121,19 @@ async def tatics(
             name=game_map.value, category=category
         )
 
-    message = f"""Mapa: {game_map.value}\nFase: {phase.value}\nBomba: {bomb}\nOperadores: {operators}\n{url}"""
+    message = f"""Mapa: {game_map.value}\n
+        Fase: {phase.value}\n
+        Bomba: {bomb}\n
+        Operadores: {operators}\n
+        {url}"""
 
     # Envia a mensagem para o canal de destino
     await target_channel.send(message)
 
     # Confirmação no canal de interação
     await interaction.followup.send(
-        f"Mensagem enviada para o canal {target_channel.name} dentro da categoria R6 - Mapas com sucesso!"
+        f"""Mensagem enviada para o canal 
+        {target_channel.name} dentro da categoria R6 - Mapas com sucesso!"""
     )
 
 
